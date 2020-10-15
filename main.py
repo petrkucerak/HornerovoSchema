@@ -18,28 +18,14 @@ class Polynom:
             out += "x^" + str(len(self.polynom) - i - 1) + " "
         return out
 
-    # vyresi rovnici v oboru celych cisel
-    # number = cislo, ktere dosazujeme
-    def solved_polynom(self, number):
-        value = 0
-        for i in range (0, len(self.polynom)):
-            value += ( self.polynom[i] * (number ** (len(self.polynom) - i - 1)))
-        return value
+    """
+    Cast kodu, ktera vraci pole s celociselnymi koreny
+    ve forme pole
+    """
 
-    # propocita, pro ktere delitele je rovnice nulova
-    def find_meta_number(self, divisor):
-        meta_number = []
-        for i in range(0, len(divisor)):
-            if(self.solved_polynom(divisor[i]) == 0):
-                meta_number.append(divisor[i])
-        return meta_number
-    
-    def find_meta_number_from_polynom(self):
-        divisitor = self.polynom[len(self.polynom)-1]
-        print(divisitor)
-        
-# najde celocislene delitele zadaneho cisla
-def find_divisor(number):
+    # najde celocislene delitele zadaneho cisla
+    def find_divisor(self):
+        number = self.polynom[-1]
         divisor = []
         i = 1
         while i <= abs(number):
@@ -49,17 +35,30 @@ def find_divisor(number):
             i += 1
         return divisor
 
+    # vyresi rovnici v oboru celych cisel
+    # number = cislo, ktere dosazujeme
+    def solved_polynom(self, number):
+        value = 0
+        for i in range (0, len(self.polynom)):
+            value += (self.polynom[i] * (number ** (len(self.polynom) - i - 1)))
+        return value
+
+    # propocita, pro ktere delitele je rovnice nulova
+    def find_meta_number(self):
+        divisor = self.find_divisor()
+        meta_number = []
+        for i in range(0, len(divisor)):
+            if(self.solved_polynom(divisor[i]) == 0):
+                meta_number.append(divisor[i])
+        return meta_number
+
+
 if __name__ == '__main__':
     c1 = Polynom([1, -4, 2, 2, 1, 6])
     print(c1)
 
-    c2 = find_divisor(6)
-    print("Delitele jsou:", c2)
-    c3 = c1.find_meta_number(c2)
-    print("Nulove hodnoty / koreny (v R) jsou", c3)
-
-    c4 = c1.find_meta_number_from_polynom
-    print(c4)
+    c2 = c1.find_meta_number()
+    print(c2)
 
 # input user polynom
 # input specific number type R, C, N, Q, ... (default is R)
